@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Form, FormLabel, FormInput } from './ContactForm.styled';
 import Button from 'components/Button/Button';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../redux/contactsSlice';
 import { nanoid } from 'nanoid';
 
@@ -9,6 +9,7 @@ export default function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts);
 
   const handleChange = e => {
     const { name, value } = e.currentTarget;
@@ -33,8 +34,17 @@ export default function ContactForm() {
 
   const handleAddContact = e => {
     e.preventDefault();
-    dispatch(addContact({ id: nanoid(), name, number }));
-    resetForm();
+    let secyritu = true;
+    contacts.forEach(elm => {
+      if (elm.name === name) {
+        alert('This name is taken!');
+        secyritu = false;
+      }
+    });
+    if (secyritu) {
+      dispatch(addContact({ id: nanoid(), name, number }));
+      resetForm();
+    }
   };
 
   return (

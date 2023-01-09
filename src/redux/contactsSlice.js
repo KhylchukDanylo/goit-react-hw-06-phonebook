@@ -6,7 +6,7 @@ export const contactsSlice = createSlice({
   reducers: {
     addContact(state, action) {
       state.push(action.payload);
-      // return [...state, action.payload];
+
     },
     deleteContact(state, action) {
       return state.filter(item => item.id !== action.payload);
